@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div class="p-10 lg:p-20 text-center">
+    <h1 class="font-semibold" style="font-size: 40px;">Find Users</h1>
+    <br>
+        <ul>
+            {% for user in users %}
+                <li>
+                    <a href="{% url 'user_profile' user.user.username %}" >{{ user.user.username }}
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.user.username }}" style="width: 30px; height: 30px; border-radius: 50%;">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i> <!-- Use a default icon if no profile picture available -->
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+</div>
+{% endblock %}
+

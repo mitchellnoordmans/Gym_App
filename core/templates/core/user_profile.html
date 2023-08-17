@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="p-10 lg:p-20 text-center">
+        <h1 class="font-semibold" style="font-size: 30px;">{{ user_profile.user.username }}</h1>
+        <br>
+        <h1>{{ user_profile.bio }}</h1>
+        <h1>{{ user_profile.date_of_birth }}</h1>
+    </div>
+    
+    <!-- Display User's Profile Posts -->
+    <div class="profile-posts">
+        <br>
+        <div id="profile-container" class="grid-container">
+            {% for post in profile_posts %}
+                <div class="post">
+                    <!-- Display Post by User -->
+                    <!-- Display Post Caption -->
+                    <p>{{ post.caption }}</p>
+                    <!-- Display Created At -->
+                    <p>{{ post.created_at }}</p>
+                    <!-- Display Post Image (if available) -->
+                    {% if post.image %}
+                        <a href="{{ post.image.url }}" class="popup-trigger" data-media-type="image">
+                            <img src="{{ post.image.url }}" alt="Post Image">
+                        </a>
+                    {% endif %}
+                    <!-- Display Post Video (if available) -->
+                    {% if post.video %}
+                        <a href="{{ post.video.url }}" class="popup-trigger" data-media-type="video">
+                            <video controls>
+                                <source src="{{ post.video.url }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+
+<script>
+    const popupTriggers = document.querySelectorAll('.popup-trigger');
+
+    popupTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const mediaSrc = trigger.getAttribute('href');
+            const mediaType = trigger.getAttribute('data-media-type');
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox';
+            
+            // Include the media (image or video)
+            lightbox.innerHTML = `<div class="lightbox-content">
+                                     ${mediaType === 'image' ? `<img src="${mediaSrc}" alt="Enlarged Image">` : `<video controls><source src="${mediaSrc}" type="video/mp4">Your browser does not support the video tag.</video>`}
+                                  </div>`;
+            
+            // Include the comments section HTML from comment_popup.html
+            const commentsSection = document.getElementById('comments-section');
+            lightbox.appendChild(commentsSection.cloneNode(true));
+            
+            document.body.appendChild(lightbox);
+
+            lightbox.addEventListener('click', () => {
+                lightbox.remove();
+            });
+        });
+    });
+</script>
+
+
+{% endblock %}
+
+

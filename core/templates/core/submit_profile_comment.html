@@ -1,0 +1,27 @@
+<div style="margin-left: 20px;">
+    <p><strong>{{ comment.user.username }}</strong></p>
+    <p class="summary" style="cursor: pointer;" onclick="toggleContent(this)">
+        {{ comment.content }}
+    </p>
+    <p class="full-content" style="display: none">
+        {{ comment.content }}
+    </p>
+    <p><em>Published on {{ comment.pub_date }}</em></p>
+
+    <!-- Render nested comments recursively -->
+    {% for reply in comment.replies.all %}
+        {% include '_comment.html' with comment=reply %}
+    {% endfor %}
+
+    <!-- Reply Form for the current comment -->
+    <form method="post" action="{% url 'submit_profile_comment' username=user_profile.user.username %}">
+        {% csrf_token %}
+        {{ comment_form.as_p }}  <!-- Render the comment form for the current comment -->
+        <input type="hidden" name="post_id" value="{{ comment.profile_post.id }}">  <!-- Hidden field for parent post ID -->
+        <input type="hidden" name="parent_comment_id" value="{{ comment.id }}">  <!-- Hidden field for parent comment ID -->
+        <input type="submit" value="Submit Reply">
+    </form>
+    <!-- End of Reply Form -->
+
+</div>
+

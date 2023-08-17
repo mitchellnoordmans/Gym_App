@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="p-10 lg:p-20 text-center">
+    <h1 class="text-3xl lg:text-6xl text-gray-900">News</h1>
+</div>
+
+
+<div class="news-container">
+    {% for news in news_posts %}
+        <div class="news-post">
+            <h2 class="p-10 lg:p-20 text-center" class="font-semibold" style="font-size: 30px;">{{ news.title }}</h2>
+            <div class="news-body">
+                <p class="truncate-text">{{ news.body }}</p>
+                <div class="p-10 lg:p-20 text-center">
+                    <button class="read-more-button px-4 py-3 block rounded-xl text-gray-900 bg-teal-300 hover:bg-teal-400">Read More</button>
+                </div>
+            </div>
+            <br>
+            <h2 class="p-10 lg:p-20 text-center">{{ news.create_date }}</h2>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.news-post').forEach(post => {
+            const truncateText = post.querySelector('.truncate-text');
+            const readMoreButton = post.querySelector('.read-more-button');
+
+            if (truncateText.clientHeight < truncateText.scrollHeight) {
+                readMoreButton.style.display = 'block';
+
+                readMoreButton.addEventListener('click', () => {
+                    truncateText.classList.toggle('show-content');
+                    if (truncateText.classList.contains('show-content')) {
+                        readMoreButton.textContent = 'Read Less';
+                    } else {
+                        readMoreButton.textContent = 'Read More';
+                    }
+                });
+            }
+        });
+        
+        function fetchLatestNews() {
+            fetch("{% url 'news' %}")
+                .then(response => response.json())
+                .then(data => {
+                    const newsContainer = document.querySelector('.news-container');
+                    newsContainer.innerHTML = ''; // Clear previous news articles
+                    data.news.forEach(news => {
+                        const newsElement = document.createElement('div');
+                        newsElement.classList.add('news-post');
+
+                        // Display News Title
+                        const titleElement = document.createElement('h2');
+                        titleElement.innerText = news.title;
+                        newsElement.appendChild(titleElement);
+
+                        // Display News Body
+                        const bodyElement = document.createElement('p');
+                        bodyElement.innerText = news.body;
+                        bodyElement.classList.add('truncate-text'); // Add class for truncation
+                        newsElement.appendChild(bodyElement);
+
+                        // Display News Creation Date
+                        const createDateElement = document.createElement('h2');
+                        createDateElement.innerText = news.create_date;
+                        newsElement.appendChild(createDateElement);
+
+                        newsContainer.appendChild(newsElement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching latest news:', error);
+                });
+        }
+        
+        // Fetch the latest news initially and then every 2 minutes
+        fetchLatestNews();
+        setInterval(fetchLatestNews, 2 * 60 * 1000);
+    });
+</script>

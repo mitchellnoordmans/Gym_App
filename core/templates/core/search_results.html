@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="form-group">
+    <form method="get">
+        {{ form.as_p }}
+        <br>
+        <button type="submit" class="open-button px-5 py-3 block rounded-xl text-gray-900 bg-gray-300 hover:bg-gray-400">Search</button>
+    </form>
+
+    <div class="p-10 lg:p-20 text-center">
+        <ul>
+            {% for user in search_results %}
+                <li>
+                    <a href="{% url 'user_profile' user.username %}">
+                        {{ user.username }}
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" style="width: 30px; height: 30px; border-radius: 50%;">
+                        {% else %}
+                            <i class="fas fa-user-circle"></i> <!-- Use a default icon if no profile picture available -->
+                        {% endif %}
+                        </a>
+                    </li>
+                {% empty %}
+                <li>No users found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+

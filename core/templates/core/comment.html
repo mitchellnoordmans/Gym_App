@@ -1,0 +1,46 @@
+
+{% for comment in post.comment_set.all %}
+    <div class="comment {% if not comment.parent_comment %}top-level-comment{% endif %}">
+        {% if not comment.parent_comment %}
+            <p><strong>{{ comment.user.username }}</strong></p>
+            <p>{{ comment.content }}</p>
+            <p><em>Published on {{ comment.pub_date }}</em></p>
+            <!-- Add "Reply" link/button -->
+            <a href="javascript:void(0);" class="reply-link" onclick="showReplyForm('{{ comment.id }}')">Reply</a>
+            <!-- Hidden reply comment form initially -->
+            <div id="reply-form-{{ comment.id }}" style="display: none;">
+                <form class="comment-form" method="post" action="{% url 'submit_comment' post_id=post.id %}">
+                    {% csrf_token %}
+                    <h2>Reply to {{ comment.user.username }}:</h2>
+                    {{ comment_form.as_p }}  <!-- Render the comment form for the current blog post -->
+                    <input type="hidden" name="post_type" value="blog"> <!-- Add a hidden field to indicate the post type -->
+                    <input type="hidden" name="parent_comment_id" value="{{ comment.id }}"> <!-- Add a hidden field to indicate the parent comment -->
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        {% else %}
+            <div class="nested-comment">
+                <p><strong>{{ comment.user.username }}</strong> replied to {{ comment.parent_comment.user.username }}</p>
+                <p>{{ comment.content }}</p>
+                <p><em>Published on {{ comment.pub_date }}</em></p>
+                <!-- Add "Reply" link/button for nested comments -->
+                <a href="javascript:void(0);" class="reply-link" onclick="showReplyForm('{{ comment.id }}')">Reply</a>
+                <!-- Hidden reply comment form initially for nested comments -->
+                <div id="reply-form-{{ comment.id }}" style="display: none;">
+                    <form class="comment-form" method="post" action="{% url 'submit_comment' post_id=post.id %}">
+                        {% csrf_token %}
+                        <h2>Reply to {{ comment.user.username }}:</h2>
+                        {{ comment_form.as_p }}  <!-- Render the comment form for the current blog post -->
+                        <input type="hidden" name="post_type" value="blog"> <!-- Add a hidden field to indicate the post type -->
+                        <input type="hidden" name="parent_comment_id" value="{{ comment.id }}"> <!-- Add a hidden field to indicate the parent comment -->
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+        <!-- Recursively render replies -->
+        {% for reply in comment.replies.all %}
+            {% include 'comment.html' with comment=reply %}
+        {% endfor %}
+    </div>
+{% endfor %}

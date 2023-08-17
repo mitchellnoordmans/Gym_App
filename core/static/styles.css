@@ -1,0 +1,161 @@
+/* Apply styles to navigation links */
+.main-menu a {
+    color: black; /* Set the text color */
+    font-family: "consolas", sans-serif; /* Set the font family */
+    font-weight: bold; /* Set font weight */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 19px;
+}
+
+/* Apply styles to navigation link when hovered */
+.main-menu a:hover {
+    color: rgba(24, 23, 23, 0.5); /* Change text color on hover */
+}
+
+.banner {
+    color: black;
+    font-family: "consolas", sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.banner a:hover {
+    color:rgba(24, 23, 23, 0.5)
+}
+
+.banner a {
+    text-decoration: none;
+    color: black;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: "consolas", sans-serif;
+    font-style: italic;
+
+}
+
+.flex {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: auto;
+}
+
+.navbar-container {
+    width: 14%;
+    position: sticky;  /* <--- make fixed later */
+    top: 0;
+    height: 100vh;
+    background-color: #ffffff;
+    color: white;
+    padding: 20px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+/* Add this to your existing <style> section */
+.footer {
+    background-color: #ffffff;
+    padding: 20px 0;
+    position: sticky;
+    bottom: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Divide the container into 4 equal columns */
+    grid-auto-flow: row dense; /* Distribute items evenly in rows */
+    gap: 10px; /* Add gap between items */
+}
+
+.post {
+    width: 100%; /* Make the post card take up full width of grid cell */
+    height: 100%; /* Make the post card take up full height of grid cell */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ffffff;
+    padding: 10px;
+    box-sizing: border-box;
+
+}
+
+.post img,
+.post video {
+    max-width: 100%; /* Make the image or video fit within the post card */
+    max-height: 100%; /* Make the image or video fit within the post card */
+    object-fit: cover; /* Adjust how the image or video is displayed */
+} 
+
+
+.news-container {
+    margin-right: 20px; /* Adjust the value as needed */
+    padding: 0 20px; /* Adjust the values as needed */  
+}
+
+
+.truncate-text {
+    max-height: 120px; /* Adjust the value to determine where to truncate */
+    overflow: hidden;
+}
+
+
+.show-content .truncate-text {
+    max-height: none;
+}
+
+.show-content .read-more-button {
+    display: none;
+}
+
+/* Style the file input button */
+.form-group input[type="file"] {
+    display: none; /* Hide the default file input button */
+}
+
+
+/* Apply styles to the label within the .form-group div */
+.form-group label {
+    font-weight: bold;
+    color: #333;
+    display: block; /* Add space between label and form field */
+    margin-bottom: 5px; /* Adjust the space between label and form field */
+}
+
+/* Apply styles to the input or textarea within the .form-group div */
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.lightbox-content {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.lightbox-content img {
+    width: 100%;
+    height: auto;
+}

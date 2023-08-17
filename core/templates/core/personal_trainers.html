@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Personal Trainers List{% endblock %}
+
+{% block content %}
+<div class="p-10 lg:p-20 text-center">
+    <h1 class="font-semibold" style="font-size: 40px;">Find Trainers</h1>
+    <br>
+    <ul>
+        {% for trainer in personal_trainers %}
+            <li>
+                <a href="{% url 'user_profile' trainer.user.username %}"> {{ trainer.user.username }}
+                    {% if trainer.profile_picture %}
+                        <img src="{{ trainer.profile_picture.url }}" alt="{{ trainer.user.username }}" style="width: 30px; height: 30px; border-radius: 50%;">
+                    {% else %}
+                        <i class="fas fa-user-circle" style="width: 30px; height: 30px; border-radius: 50%;"></i> <!-- Use a default icon if no profile picture available -->
+                    {% endif %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

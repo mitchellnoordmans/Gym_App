@@ -1,0 +1,55 @@
+<!-- SAVED FOR REFERENCING NOT USED!
+
+<div id="comments-section">
+    <div class="post-comments">
+        {% for comment in profile_comments %}
+            {% if comment.profile_post == post %}
+                <div class="comment">
+                    <p>
+                        <a href="{% url 'user_profile' comment.user.username %}" class="font-semibold" style="font-size: 18px;">
+                            {{ comment.user.username }}:
+                        </a>{{ comment.content }}
+                    </p>
+                    
+
+                    
+                    <div id="reply-form-{{ comment.id }}" class="reply-form-container">
+                        <h5>Reply to {{ comment.user.username }}</h5>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ comment_form.as_p }}
+                            <input type="hidden" name="profile_post_id" value="{{ post.id }}">
+                            <input type="hidden" name="parent_comment_id" value="{{ comment.id }}">
+                            <button type="submit" class="px-5 py-3 block rounded-xl text-gray-900 bg-gray-300 hover:bg-gray-400">Submit Reply</button>
+                        </form>
+                    </div>
+
+                    
+                    <div class="replies">
+                        {% for reply in comment.replies.all %}
+                            <div class="reply">
+                                <p>
+                                    <a href="{% url 'user_profile' reply.user.username %}" class="font-semibold" style="font-size: 18px;">
+                                        {{ reply.user.username }}:
+                                    </a> {{ reply.content }} @
+                                    <a href="{% url 'user_profile' comment.user.username %}" class="font-semibold" style="font-size: 18px;">
+                                        {{ comment.user.username }}
+                                    </a>
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    <div class="comment-form">
+        <form method="post" class="flex">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <input type="hidden" name="profile_post_id" class="flex-1 mr-3 bg-gray-100 rounded-lg py-2 px-3" value="{{ post.id }}">
+            <button type="submit" class="px-5 py-3 block rounded-xl text-gray-900 bg-gray-300 hover:bg-gray-400">Submit</button>
+        </form>
+    </div>
+</div> -->
