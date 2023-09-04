@@ -1,4 +1,4 @@
-# Gym_App meant to be used for discussing and sharing gym and progression and sharing photos/videos, real time group messenger included. (study project)
+# Gym_App meant to be used for discussing and sharing gym and progression and sharing photos/videos, real time group messenger included.
 
 
 ![](https://github.com/mitchellnoordmans/Gym_App/blob/main/gif1.gif)
